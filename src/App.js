@@ -1,11 +1,11 @@
 import React from "react";
-import Pos from "./components/pos/Pos";
+import MainRoutes from "./routers";
 
 const App = () => {
   return (
-    <div>
-      <Pos />
-    </div>
+    <main>
+      <MainRoutes />
+    </main>
   );
 };
 

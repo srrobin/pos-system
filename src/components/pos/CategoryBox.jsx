@@ -1,38 +1,45 @@
 import React from "react";
 import { Select } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
+import { AxiosInstance } from "../../utils/Axios";
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
+const CategoryBox = ({ onCatChange }) => {
+  const [searchParam, setSearchParam] = useSearchParams();
+  const category = searchParam.get("category") || "";
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () =>
+      AxiosInstance
+        .get("/products/categories")
+        .then((res) => res.data),
+  });
+  const handleChange = (value) => {
+    setSearchParam((prev) => {
+      prev.delete("q");
+      prev.set("category", value);
+      return prev;
+    });
+    onCatChange(value);
+  };
+  return (
+    <Select
+      showSearch
+      placeholder="Search to Select"
+      optionFilterProp="children"
+      filterOption={(input, option) => (option?.label ?? "").includes(input)}
+      filterSort={(optionA, optionB) =>
+        (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())
+      }
+      options={
+        categories?.map((category, index) => ({
+          value: category,
+          label: category,
+        }))
+      }
+      onChange={handleChange}
+    />
+  );
 };
-const onSearch = (value) => {
-  console.log("search:", value);
-};
-
-const filterOption = (input, option) =>
-  (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-const CategoryBox = () => (
-  <Select
-    showSearch
-    placeholder="Select a category"
-    optionFilterProp="children"
-    onChange={onChange}
-    onSearch={onSearch}
-    filterOption={filterOption}
-    options={[
-      {
-        value: "jack",
-        label: "Jack",
-      },
-      {
-        value: "lucy",
-        label: "Lucy",
-      },
-      {
-        value: "tom",
-        label: "Tom",
-      },
-    ]}
-  />
-);
 
 export default CategoryBox;

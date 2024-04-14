@@ -4,7 +4,7 @@ import { Tooltip } from "antd";
 
 const DraftButton = () => {
   return (
-    <Tooltip placement="top" title="Draft Items">
+    <Tooltip placement="top" title="It's Premium">
       <ContainerOutlined style={{ fontSize: "25px", cursor: "pointer" }} />
     </Tooltip>
   );
