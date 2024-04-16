@@ -21,6 +21,24 @@ export const Reducer = (state, action) => {
         ...state,
         cart: [...state.cart, { ...action.payload, qty: 1 }]
       };
+    case "INCREMENT_QUANTITY":
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          (item.id === action.payload.id
+            ? { ...item, qty: item.qty + 1 }
+            : item)
+        ),
+      };
+    case "DECREMENT_QUANTITY":
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          (item.id === action.payload.id && item.qty > 1
+            ? { ...item, qty: item.qty - 1 }
+            : item)
+        ),
+      };
     case "DELETE_PRODUCT":
       return {
         ...state,

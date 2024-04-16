@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import {
   CheckCircleFilled,
   ContainerOutlined,
@@ -8,9 +8,23 @@ import {
   RedoOutlined,
 } from "@ant-design/icons";
 import { posState } from "../../context/CartContext";
+import PaymentModal from "./PaymentModal";
 
 const PosCalculationBlock = () => {
   const { state, dispatch } = posState();
+  const [modal1Open, setModal1Open] = useState(false);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [serviceCharge, setServiceCharge] = useState(0);
+  const [adjustAmount, setAdjustAmount] = useState(0);
+
+  // subtotal
+  const subtotal = state.cart.reduce((acc, cur) => {
+    return acc + (cur.qty * cur.price);
+  }, 0);
+
+  const totalWithDiscount = subtotal - (subtotal * discountPercentage) / 100;
+  const totalWithServicesCharge = totalWithDiscount + serviceCharge;
+  const total = totalWithServicesCharge - adjustAmount;
   return (
     <div className="poscalculation">
 
@@ -37,11 +51,11 @@ const PosCalculationBlock = () => {
               <Form.Item label="Discount(%)">
                 <Input
                   size="small"
-                  // style={{
-                  //   width: 80,
-                  //   margin: "0 0px",
-                  // }}
-                //   onChange={(e) => setDiscountPercentage(+e.target.value)}
+                  style={{
+                    width: 80,
+                    margin: "0 0px",
+                  }}
+                  onChange={(e) => setDiscountPercentage(+e.target.value)}
                 />
               </Form.Item>
             </Col>
@@ -50,11 +64,11 @@ const PosCalculationBlock = () => {
               <Form.Item label="Services">
                 <Input
                   size="small"
-                  // style={{
-                  //   width: 100,
-                  //   margin: "0 0px",
-                  // }}
-                //   onChange={(e) => setServiceCharge(+e.target.value)}
+                  style={{
+                    width: 100,
+                    margin: "0 0px",
+                  }}
+                  onChange={(e) => setServiceCharge(+e.target.value)}
                 />
               </Form.Item>
             </Col>
@@ -66,7 +80,7 @@ const PosCalculationBlock = () => {
                   //   width: 90,
                   //   margin: "0 0px",
                   // }}
-                //   onChange={(e) => setAdjustAmount(+e.target.value)}
+                  onChange={(e) => setAdjustAmount(+e.target.value)}
                 />
               </Form.Item>
             </Col>
@@ -79,10 +93,10 @@ const PosCalculationBlock = () => {
           Total Item :<span>{state.cart.length}</span>
         </div>
         <div className="pos__calculation__item">
-          SubTotal :<span>00</span>
+          SubTotal :<span>{subtotal}</span>
         </div>
         <div className="pos__calculation__item">
-          Total :<span>00</span>
+          Total :<span>{total}</span>
         </div>
       </div>
 
@@ -110,11 +124,16 @@ const PosCalculationBlock = () => {
             type="primary"
             icon={<DollarCircleFilled />}
             size="small"
-            // onClick={showModal}
+            onClick={() => setModal1Open(true)}
             style={{ width: "30%", marginTop: "15px" }}
           >
             Pay Now
           </Button>
+          <PaymentModal
+            modal1Open={modal1Open}
+            setModal1Open={setModal1Open}
+            payable_amount={total}
+          />
         </div>
       </div>
     </div>

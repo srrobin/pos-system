@@ -6,6 +6,13 @@ import { posState } from "../../context/CartContext";
 const CartItem = () => {
   const { state, dispatch } = posState();
   console.log("🚀 ~ CartItem ~ state:", state);
+  const handleIncrement = (item) => {
+    dispatch({ type: "INCREMENT_QUANTITY", payload: item });
+  };
+
+  const handleDecrement = (item) => {
+    dispatch({ type: "DECREMENT_QUANTITY", payload: item });
+  };
   return (
     <>
       {state.cart.map((item) => (
@@ -18,11 +25,19 @@ const CartItem = () => {
             />
           </div>
           <div className="counter__area">
-            <button className="plus" type="button">
+            <button
+              className="plus"
+              type="button"
+              onClick={() => handleIncrement(item)}
+            >
               +
             </button>
-            <span> 2 </span>
-            <button className="minus" type="button">
+            <span>{item.qty} </span>
+            <button
+              className="minus"
+              type="button"
+              onClick={() => handleDecrement(item)}
+            >
               -
             </button>
           </div>
