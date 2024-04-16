@@ -7,8 +7,10 @@ import {
   PlusCircleOutlined,
   RedoOutlined,
 } from "@ant-design/icons";
+import { posState } from "../../context/CartContext";
 
 const PosCalculationBlock = () => {
+  const { state, dispatch } = posState();
   return (
     <div className="poscalculation">
 
@@ -74,7 +76,7 @@ const PosCalculationBlock = () => {
 
       <div className="poscalculation__area">
         <div className="pos__calculation__item">
-          Total Item :<span>00</span>
+          Total Item :<span>{state.cart.length}</span>
         </div>
         <div className="pos__calculation__item">
           SubTotal :<span>00</span>

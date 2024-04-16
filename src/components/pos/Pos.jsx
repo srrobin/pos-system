@@ -3,7 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Col, Input, Row, Select, Tabs } from "antd";
 import debounce from "lodash.debounce";
-import React from "react";
+import React, { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AxiosInstance } from "../../utils/Axios";
 import CartItem from "./CartItem";
@@ -14,13 +14,13 @@ import PosCalculationBlock from "./PosCalculationBlock";
 import PosCustomer from "./PosCustomer";
 import ProductCard from "./ProductCard";
 import ThemeBtn from "./ThemeBtn";
+import { posState } from "../../context/CartContext";
 
 const Pos = () => {
+  const { state, dispatch } = posState();
   const [searchParam, setSearchParam] = useSearchParams();
   const q = searchParam.get("q") || "";
   const category = searchParam.get("category") || "";
-  console.log("🚀 ~ Pos ~ category:", category);
-  console.log("🚀 ~ Pos ~ q:", q);
 
   const {
     isLoading: catIsLoading,
@@ -58,6 +58,13 @@ const Pos = () => {
     });
   };
 
+  const handleAddToCart = (c_item) => {
+    console.log("🚀 ~ handleAddToCart ~ c_item:", c_item);
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: c_item,
+    });
+  };
   if (isLoading) return "Loading...";
   if (isError) return `An error has occurred: ${error.message}`;
 
@@ -148,7 +155,7 @@ const Pos = () => {
           <div className="show__product">
             <Row gutter={[24, 24]}>
               {products?.products.map((product) => (
-                <Col span={12} md={8} lg={6} xxl={4} key={product.id}>
+                <Col span={12} md={8} lg={6} xxl={4} key={product.id} onClick={() => handleAddToCart(product)}>
                   <ProductCard product={product} />
                 </Col>
               ))}
@@ -162,12 +169,6 @@ const Pos = () => {
 
           <div className="cart__items">
             <Row gutter={[24, 24]}>
-              <Col span={24}>
-                <CartItem />
-              </Col>
-              <Col span={24}>
-                <CartItem />
-              </Col>
               <Col span={24}>
                 <CartItem />
               </Col>
