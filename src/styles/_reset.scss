@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&display=swap');
 
-body{ font-family: "Poppins", sans-serif; background: #f8f9fb}
+body{ font-family: "Poppins", sans-serif; background: #f8fbf8}
 html, body, ul, ol, li, form, fieldset, legend
 *{
     padding: 0;
@@ -15,14 +15,7 @@ html, body, ul, ol, li, form, fieldset, legend
 h1, h2, h3, h4, h5, h6, p { margin-top: 0; }
 fieldset,img { border: 0; }
 li { list-style: none; }
-// :root::-webkit-scrollbar{
-//     display: none;
-//   }
-  
-//   :root {
-//     scrollbar-width: none;
-//     -ms-overflow-style: none;
-//   }
+
   ::-webkit-scrollbar {
     display: none;
 }

@@ -1,5 +1,4 @@
 @import "./allmixing";
-@import "./heights";
 @import "./reset";
 @import "./variables";
 %flex__area{
@@ -41,20 +40,26 @@
   }
 }
 .poscalculation{
+  color: $extra_four;
   .poscalculation__inputs{
     .ant-form-item{
-      margin-bottom: 10px !important
+      margin-top: 10px !important;
+      margin-bottom: 10px !important;
+      color: $extra_four;
     }
   }
   .poscalculation__area{
     .pos__calculation__item{
       @extend %flex__area;
       background: $extra_three;
-      padding: 0 16px;
-      color: #031a3f;
+      padding: 4px 16px;
+      color: $extra_four;
       font-weight: map-get($font-weight, regular);
       font-size: map-get($font-size, small );
-      border-bottom: 1e-8rem dashed #031a3f80;
+      border-bottom: 1e-8rem dashed $extra_four;
+      span{
+        font-weight: map-get($font-weight, bold);
+      }
     }
   }
   .poscalculation__submits{
@@ -101,6 +106,7 @@
   background: #cdcdcd8a;
   position: relative;
   margin-bottom: 10px;
+  color: $extra_four;
   .ant-typography {
     margin-bottom: 0 !important;
   }
@@ -174,7 +180,7 @@
     line-height: 16px;
     margin-bottom: 10px;
     text-align: center;
-    background: $extra_one;
+    background: $extra_four;
     padding: 3px 14px;
     border-radius: 17px;
     font-size: 13px;

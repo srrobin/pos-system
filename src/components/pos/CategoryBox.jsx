@@ -25,6 +25,7 @@ const CategoryBox = ({ onCatChange }) => {
   return (
     <Select
       showSearch
+      size="large"
       placeholder="Search to Select"
       optionFilterProp="children"
       filterOption={(input, option) => (option?.label ?? "").includes(input)}

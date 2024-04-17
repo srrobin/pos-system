@@ -1,5 +1,5 @@
-import { Button, Col, Form, Input, Row } from "antd";
-import React, { useState } from "react";
+import { Button, Col, Form, Input, Row, message } from "antd";
+import React, { useEffect, useState } from "react";
 import {
   CheckCircleFilled,
   ContainerOutlined,
@@ -10,12 +10,13 @@ import {
 import { posState } from "../../context/CartContext";
 import PaymentModal from "./PaymentModal";
 
-const PosCalculationBlock = () => {
+const PosCalculationBlock = ({ userId }) => {
   const { state, dispatch } = posState();
   const [modal1Open, setModal1Open] = useState(false);
-  const [discountPercentage, setDiscountPercentage] = useState(0);
-  const [serviceCharge, setServiceCharge] = useState(0);
-  const [adjustAmount, setAdjustAmount] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0); // default value 0
+  const [serviceCharge, setServiceCharge] = useState(0); // default value 0
+  const [adjustAmount, setAdjustAmount] = useState(0); // default value 0
+  const [paymentData, setPaymentData] = useState({});
 
   // subtotal
   const subtotal = state.cart.reduce((acc, cur) => {
@@ -25,6 +26,47 @@ const PosCalculationBlock = () => {
   const totalWithDiscount = subtotal - (subtotal * discountPercentage) / 100;
   const totalWithServicesCharge = totalWithDiscount + serviceCharge;
   const total = totalWithServicesCharge - adjustAmount;
+
+  useEffect(() => {
+    const fetchedPaymentData = JSON.parse(localStorage.getItem("paymentData")) || {};
+    setPaymentData(fetchedPaymentData);
+  }, []);
+
+  // Update localStorage whenever total changes
+  useEffect(() => {
+    localStorage.setItem("paymentData", JSON.stringify({
+      subtotal,
+      totalWithDiscount,
+      discountPercentage,
+      serviceCharge,
+      total
+    }));
+    // Update paymentData state with the latest values
+    setPaymentData({
+      subtotal,
+      totalWithDiscount,
+      discountPercentage,
+      serviceCharge,
+      total
+    });
+  }, [subtotal, totalWithDiscount, discountPercentage, serviceCharge, total]);
+  const handlePayment = () => {
+    if (userId) {
+      if (state.cart.length === 0) {
+        message.warning("The cart is empty. Please add items before proceeding.");
+      } else {
+        setModal1Open(true);
+      }
+    } else {
+      message.error("User is Reqired.");
+    }
+  };
+  const resetHandler = () => {
+    dispatch({ type: "RESET_CART" });
+    setDiscountPercentage(0);
+    setServiceCharge(0);
+    setAdjustAmount(0);
+  };
   return (
     <div className="poscalculation">
 
@@ -93,10 +135,10 @@ const PosCalculationBlock = () => {
           Total Item :<span>{state.cart.length}</span>
         </div>
         <div className="pos__calculation__item">
-          SubTotal :<span>{subtotal}</span>
+          SubTotal :<span>{new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(paymentData?.subtotal)}</span>
         </div>
         <div className="pos__calculation__item">
-          Total :<span>{total}</span>
+          Total :<span> {new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(paymentData?.total)}</span>
         </div>
       </div>
 
@@ -105,7 +147,7 @@ const PosCalculationBlock = () => {
           <Button
             icon={<RedoOutlined />}
             size="small"
-        //   onClick={resetHandler}
+            onClick={resetHandler}
             style={{ width: "30%", marginTop: "15px" }}
           >
             Reset
@@ -115,7 +157,7 @@ const PosCalculationBlock = () => {
             icon={<ContainerOutlined />}
             size="small"
             // onClick={draftHandler}
-            style={{ width: "30%", marginTop: "15px" }}
+            style={{ width: "30%", marginTop: "15px", background: "#28100b" }}
           >
             Draft
           </Button>
@@ -124,8 +166,9 @@ const PosCalculationBlock = () => {
             type="primary"
             icon={<DollarCircleFilled />}
             size="small"
-            onClick={() => setModal1Open(true)}
-            style={{ width: "30%", marginTop: "15px" }}
+            // onClick={() => setModal1Open(true)}
+            onClick={handlePayment}
+            style={{ width: "30%", marginTop: "15px", background: "#28100b" }}
           >
             Pay Now
           </Button>
@@ -133,6 +176,7 @@ const PosCalculationBlock = () => {
             modal1Open={modal1Open}
             setModal1Open={setModal1Open}
             payable_amount={total}
+            userId={userId}
           />
         </div>
       </div>

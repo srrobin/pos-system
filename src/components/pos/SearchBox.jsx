@@ -2,7 +2,6 @@ import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Input, Space } from "antd";
 
-const { Search } = Input;
 const handleChange = (e) => {
   console.log(e);
 };
@@ -12,6 +11,7 @@ const SearchBox = () => {
       placeholder="Search here"
       onChange={handleChange}
       prefix={<SearchOutlined />}
+      size="large"
     />
   );
 };

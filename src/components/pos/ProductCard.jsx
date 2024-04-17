@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => (
       <img
         alt="example"
         src={product.images[0].replace(/[\\[\]\\"\\]/g, "")}
-        style={{ width: "100%", height: "100px", objectFit: "cover" }}
+        style={{ width: "100%", height: "150px", objectFit: "cover" }}
       />}
     variant="top"
     className="product__image"

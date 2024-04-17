@@ -6,12 +6,15 @@ import { AxiosInstance } from "../../utils/Axios";
 import UserModalForm from "./UserForm";
 import AddUser from "./AddUser";
 
-const PosCustomer = () => {
+const PosCustomer = ({ onSelectUser }) => {
   const [modal1Open, setModal1Open] = useState(false);
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () => AxiosInstance.get("/users?limit=0&skip=0").then((res) => res.data),
   });
+  const handleUserSelect = (value) => {
+    onSelectUser(value);
+  };
   console.log("🚀 ~ Pos ~ users:", users);
   return (
     <>
@@ -23,6 +26,7 @@ const PosCustomer = () => {
           }}
         >
           <Select
+            size="default"
             showSearch
             placeholder="Search to Select"
             optionFilterProp="children"
@@ -38,9 +42,10 @@ const PosCustomer = () => {
                 .localeCompare((optionB?.label ?? "").toLowerCase())
             }
             options={users?.users?.map((user, index) => ({
-              value: user?.firstName,
+              value: user?.id,
               label: user?.firstName,
             }))}
+            onChange={handleUserSelect}
           />
           <Button
             type="primary"
@@ -50,6 +55,7 @@ const PosCustomer = () => {
             style={{
               width: "80px",
               boxShadow: "none",
+              background: "#28100b"
             }}
           />
         </Space.Compact>

@@ -1,7 +1,20 @@
 import { Button, Input, Modal, Select, Table, message } from "antd";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Invoice from "./Invoice";
 
-const PaymentModal = ({ modal1Open, setModal1Open, payable_amount }) => {
+const PaymentModal = (
+  {
+    modal1Open,
+    setModal1Open,
+    payable_amount,
+    subtotal,
+    discountPercentage,
+    totalWithDiscount,
+    serviceCharge,
+    userId
+  }) => {
+  const navigate = useNavigate();
   const paymentOptions = [
     {
       label: "Cash",
@@ -115,6 +128,14 @@ const PaymentModal = ({ modal1Open, setModal1Open, payable_amount }) => {
       setPaymentRow(newPaymentRow);
     }
   };
+  const handleOk = () => {
+    if (payingAmount === 0) {
+      message.error("You must enter a payment amount.");
+    } else {
+      setModal1Open(false);
+      window.open(`/pos/invoice/:${userId}`, "_blank");
+    }
+  };
   const columns = [
     {
       title: "Payment Method",
@@ -205,13 +226,19 @@ const PaymentModal = ({ modal1Open, setModal1Open, payable_amount }) => {
   ];
   return (
     <Modal
-      title="20px to Top"
-      style={{
-        top: 20,
-      }}
+      // title="Payment Now"
+      style={{ top: 20 }}
       open={modal1Open}
-      onOk={() => setModal1Open(false)}
+      // onOk={() => setModal1Open(false)}
       onCancel={() => setModal1Open(false)}
+      title={`Payable Amount - $ ${payable_amount.toFixed(2)}`}
+      width="800px"
+      onOk={handleOk}
+      // onCancel={handleCancel}
+      cancelButtonProps={{ style: { display: "none" } }}
+      okButtonProps={{ style: { background: "#28100b" } }}
+      maskClosable={false}
+      okText="Submit"
     >
       <div
         style={{
@@ -234,7 +261,7 @@ const PaymentModal = ({ modal1Open, setModal1Open, payable_amount }) => {
           Remain:<span style={{ color: "#23253c", background: "#faad14", fontWeight: "600", padding: "5px 10px", borderRadius: "5px" }}> ${(payable_amount - payingAmount).toFixed(2)}</span>
         </p>
         {options.length ? (
-          <Button type="primary" onClick={addMoreBtnHandler}>
+          <Button type="primary" style={{ background: "#28100b" }} onClick={addMoreBtnHandler}>
             Add More
           </Button>
         ) : null}
@@ -242,7 +269,6 @@ const PaymentModal = ({ modal1Open, setModal1Open, payable_amount }) => {
       <Table
         columns={columns}
         dataSource={paymentRow}
-        bordered
         className="payment__method-table"
         pagination={false}
       />

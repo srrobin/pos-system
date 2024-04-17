@@ -15,7 +15,7 @@ const CartItem = () => {
   };
   return (
     <>
-      {state.cart.map((item) => (
+      {state?.cart?.map((item) => (
         <div className="cart__item" key={item.id}>
           <div className="delete__icon">
             <CloseCircleOutlined onClick={() => dispatch({

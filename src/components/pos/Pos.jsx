@@ -3,7 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Col, Input, Row, Select, Tabs } from "antd";
 import debounce from "lodash.debounce";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AxiosInstance } from "../../utils/Axios";
 import CartItem from "./CartItem";
@@ -18,6 +18,7 @@ import { posState } from "../../context/CartContext";
 
 const Pos = () => {
   const { state, dispatch } = posState();
+  const [userId, setUserId] = useState();
   const [searchParam, setSearchParam] = useSearchParams();
   const q = searchParam.get("q") || "";
   const category = searchParam.get("category") || "";
@@ -58,13 +59,29 @@ const Pos = () => {
     });
   };
 
+  // const handleAddToCart = (c_item) => {
+  //   console.log("🚀 ~ handleAddToCart ~ c_item:", c_item);
+  //   dispatch({
+  //     type: "ADD_TO_CART",
+  //     payload: c_item,
+  //   });
+  // };
   const handleAddToCart = (c_item) => {
     console.log("🚀 ~ handleAddToCart ~ c_item:", c_item);
     dispatch({
       type: "ADD_TO_CART",
       payload: c_item,
     });
+
+    const updatedCart = [...state.cart, c_item];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
+
+  const handleUserSelect = (userId) => {
+    console.log("Selected user robin---:", userId);
+    setUserId(userId);
+  };
+
   if (isLoading) return "Loading...";
   if (isError) return `An error has occurred: ${error.message}`;
 
@@ -155,7 +172,7 @@ const Pos = () => {
           <div className="show__product">
             <Row gutter={[24, 24]}>
               {products?.products.map((product) => (
-                <Col span={12} md={8} lg={6} xxl={4} key={product.id} onClick={() => handleAddToCart(product)}>
+                <Col span={12} md={8} lg={6} xxl={6} key={product.id} onClick={() => handleAddToCart(product)}>
                   <ProductCard product={product} />
                 </Col>
               ))}
@@ -164,7 +181,7 @@ const Pos = () => {
         </div>
         <div className="pos__cart">
           <div className="cart__top">
-            <PosCustomer />
+            <PosCustomer onSelectUser={handleUserSelect} />
           </div>
 
           <div className="cart__items">
@@ -175,7 +192,7 @@ const Pos = () => {
             </Row>
           </div>
           <div className="cart__calculation">
-            <PosCalculationBlock />
+            <PosCalculationBlock userId={userId} />
           </div>
         </div>
       </div>

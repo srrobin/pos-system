@@ -39,12 +39,25 @@ export const Reducer = (state, action) => {
             : item)
         ),
       };
+
     case "DELETE_PRODUCT":
+      // Remove the deleted product from localStorage
+      // eslint-disable-next-line no-case-declarations
+      const updatedCart = state.cart.filter((item) => item.id !== action.payload.id);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+      // Update the state to remove the deleted product from the cart
       return {
         ...state,
-        cart: state.cart.filter((i) => i.id !== action.payload.id)
+        cart: updatedCart,
       };
-
+    case "LOAD_CART_FROM_STORAGE":
+      return {
+        ...state,
+        cart: action.payload,
+      };
+    case "RESET_CART":
+      return { ...state, cart: [] }; // Reset cart to an empty array
     default:
       return state;
   }
