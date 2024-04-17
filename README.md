@@ -1,6 +1,6 @@
 # Point of Sale (POS) System
 
-![POS System](pos_system_screenshot.png)
+![POS System][pos_system_screenshot.png](https://github.com/srrobin/pos-system/blob/main/src/assets/scrnli_4_17_2024_2-57-04%20PM.png)
 
 ## Description
 
