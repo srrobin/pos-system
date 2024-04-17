@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Drawer, Button, Tooltip, Menu } from "antd";
 import { MoreOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
 import { FaBullseye } from "react-icons/fa";
+import bg from "../../assets/bg.jpg";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -39,6 +40,7 @@ const Menus = ({ open, setOpen }) => {
         onClick={onClick}
         style={{
           width: 200,
+          background: "transparent"
         }}
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}

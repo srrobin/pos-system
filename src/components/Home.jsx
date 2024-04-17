@@ -4,12 +4,20 @@ import { CoffeeOutlined } from "@ant-design/icons";
 import { Button, Flex } from "antd";
 import { Link } from "react-router-dom";
 import GlobalLoader from "../utils/GlobalLoader";
+import bg from "../assets/bg.jpg";
 
 const boxStyle = {
-  height: "100vh",
+  height: "100%",
+  width: "100%",
   display: "grid",
-  placeItems: "center"
+  placeItems: "center",
+  backgroundColor: "#0958d9",
+  backgroundImage: `url(${bg})`,
+  backgroundPosition: "center center",
+  backgroundRepeat: "repeat",
+  backgroundBlendMode: "multiply"
 };
+
 const homeStyle = {
   display: "flex",
   alignItems: "center",
@@ -19,12 +27,18 @@ const Home = () => {
   return (
     <div style={boxStyle}>
       <span style={homeStyle}>
-        <h2>A point of sale (POS)</h2><br />
+        <h1 style={{ fontFamily: " 'Satisfy', cursive", fontWeight: "600", margin: "0px", fontSize: "70px", color: "lavenderblush" }}>POS</h1><br />
+        <h2 style={{ color: "lavenderblush" }}>POINT OF SALE</h2><br />
         <Link to="/pos">
-          <Button type="primary" icon={<CoffeeOutlined />}>
-            POS
+          <Button
+            type="primary"
+            icon={<CoffeeOutlined />}
+            size="large"
+            style={{ marginTop: "15px", background: "#28100b" }}
+
+          >
+            Let&apos;s Start
           </Button>
-          <GlobalLoader />
         </Link>
       </span>
     </div>

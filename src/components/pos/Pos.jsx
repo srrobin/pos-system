@@ -15,6 +15,7 @@ import PosCustomer from "./PosCustomer";
 import ProductCard from "./ProductCard";
 import ThemeBtn from "./ThemeBtn";
 import { posState } from "../../context/CartContext";
+import GlobalLoader from "../../utils/GlobalLoader";
 
 const Pos = () => {
   const { state, dispatch } = posState();
@@ -82,80 +83,79 @@ const Pos = () => {
     setUserId(userId);
   };
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <GlobalLoader />;
   if (isError) return `An error has occurred: ${error.message}`;
 
   return (
-    <main>
-      <div className="pos">
-        <div className="pos__products">
-          <div className="pos__top">
-            <Row gutter={[24, 0]} style={{ paddingTop: "10px" }}>
-              <Col span={2}>
-                <DrawerBtn />
-              </Col>
-              <Col span={8}>
-                <Input
-                  placeholder="Search here"
-                  onChange={debounce((e) => {
-                    setSearchParam((prev) => {
-                      prev.set("q", e.target.value);
-                      prev.delete("category");
-                      return prev;
-                    });
-                  }, 1000)}
-                  prefix={<SearchOutlined />}
-                />
-              </Col>
-              <Col span={8}>
-                <Select
-                  name="category"
-                  showSearch
-                  placeholder="Search to Select"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").includes(input)
+    <div className="pos">
+      <div className="pos__products">
+        <div className="pos__top">
+          <Row gutter={[24, 0]} style={{ paddingTop: "10px" }}>
+            <Col span={2}>
+              <DrawerBtn />
+            </Col>
+            <Col span={8}>
+              <Input
+                placeholder="Search here"
+                onChange={debounce((e) => {
+                  setSearchParam((prev) => {
+                    prev.set("q", e.target.value);
+                    prev.delete("category");
+                    return prev;
+                  });
+                }, 1000)}
+                prefix={<SearchOutlined />}
+              />
+            </Col>
+            <Col span={8}>
+              <Select
+                name="category"
+                showSearch
+                placeholder="Search to Select"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "").includes(input)
                   }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
-                  options={categories?.map((category, index) => ({
-                    value: category,
-                    label: category,
-                  }))}
-                  onChange={(value) => {
-                    // Changed here
-                    setSearchParam((prev) => {
-                      prev.delete("q");
-                      prev.set("category", value); // Changed here
-                      return prev;
-                    });
-                  }}
-                />
-              </Col>
-              <Col span={2}>
-                <DraftButton />
-              </Col>
-              <Col span={2}>
-                <FullScreenBtn />
-              </Col>
-              <Col span={2}>
-                <ThemeBtn />
-              </Col>
-            </Row>
-          </div>
-          <div className="pos__menu">
-            <Row gutter={[24, 0]}>
-              <Col span={24}>
-                <Tabs
-                  defaultActiveKey="1"
-                  tabPosition="top"
-                  style={{
-                    height: 50,
-                  }}
-                  items={
+                options={categories?.map((category, index) => ({
+                  value: category,
+                  label: category,
+                }))}
+                onChange={(value) => {
+                  // Changed here
+                  setSearchParam((prev) => {
+                    prev.delete("q");
+                    prev.set("category", value); // Changed here
+                    return prev;
+                  });
+                }}
+              />
+            </Col>
+            <Col span={2}>
+              <DraftButton />
+            </Col>
+            <Col span={2}>
+              <FullScreenBtn />
+            </Col>
+            <Col span={2}>
+              <ThemeBtn />
+            </Col>
+          </Row>
+        </div>
+        <div className="pos__menu">
+          <Row gutter={[24, 0]}>
+            <Col span={24}>
+              <Tabs
+                defaultActiveKey="1"
+                tabPosition="top"
+                style={{
+                  height: 50,
+                }}
+                items={
                     !catIsLoading &&
                     categories.map((item) => {
                       return {
@@ -164,39 +164,38 @@ const Pos = () => {
                       };
                     })
                   }
-                  onTabClick={categoryHandler}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div className="show__product">
-            <Row gutter={[24, 24]}>
-              {products?.products.map((product) => (
-                <Col span={12} md={8} lg={6} xxl={6} key={product.id} onClick={() => handleAddToCart(product)}>
-                  <ProductCard product={product} />
-                </Col>
-              ))}
-            </Row>
-          </div>
+                onTabClick={categoryHandler}
+              />
+            </Col>
+          </Row>
         </div>
-        <div className="pos__cart">
-          <div className="cart__top">
-            <PosCustomer onSelectUser={handleUserSelect} />
-          </div>
-
-          <div className="cart__items">
-            <Row gutter={[24, 24]}>
-              <Col span={24}>
-                <CartItem />
+        <div className="show__product">
+          <Row gutter={[24, 24]}>
+            {products?.products.map((product) => (
+              <Col span={12} md={8} lg={6} xxl={6} key={product.id} onClick={() => handleAddToCart(product)}>
+                <ProductCard product={product} />
               </Col>
-            </Row>
-          </div>
-          <div className="cart__calculation">
-            <PosCalculationBlock userId={userId} />
-          </div>
+            ))}
+          </Row>
         </div>
       </div>
-    </main>
+      <div className="pos__cart">
+        <div className="cart__top">
+          <PosCustomer onSelectUser={handleUserSelect} />
+        </div>
+
+        <div className="cart__items">
+          <Row gutter={[24, 24]}>
+            <Col span={24}>
+              <CartItem />
+            </Col>
+          </Row>
+        </div>
+        <div className="cart__calculation">
+          <PosCalculationBlock userId={userId} />
+        </div>
+      </div>
+    </div>
   );
 };
 

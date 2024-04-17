@@ -14,9 +14,11 @@ This is a Point of Sale (POS) system built using React.js and various libraries 
 - **Payment Processing:** Process payments through a secure and user-friendly modal.
 - **Additional Features:** Add any other features your POS system offers.
 
+
+![POS System](pos_system_screenshot.png)
 ## Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/pos-system.git
+   git clone https://github.com/srrobin/pos-system.git

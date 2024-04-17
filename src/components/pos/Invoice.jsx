@@ -19,9 +19,6 @@ const Invoice = ({
   const subtotals = paymentData.subtotal;
   const total = paymentData.totalWithDiscount;
 
-  //   const totalWithDiscount = subtotal - (subtotal * discountPercentage) / 100;
-  //   const totalWithServicesCharge = totalWithDiscount + serviceCharge;
-  //   const total = totalWithServicesCharge;
   console.log("🚀 ~ state:", state.cart);
   const handlePrint = () => {
     window.print();
@@ -31,7 +28,7 @@ const Invoice = ({
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current
     .getFullYear()}`;
   return (
-    <div style={{ minHeight: "100vh", maxWidth: "1050px", margin: "0 auto" }}>
+    <div style={{ Height: "100vh", maxWidth: "1050px", margin: "0 auto", overflow: "hidden" }}>
       <Button icon={<MdLocalPrintshop />} style={{ position: "fixed", background: "#28100b" }} type="primary" onClick={handlePrint}>Print Now</Button>
       <div className="py-4">
         <div className="px-14 py-6">
