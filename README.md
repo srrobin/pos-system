@@ -1,6 +1,6 @@
 # Point of Sale (POS) System
 
-![POS System](pos_system_screenshot.png)
+![POS System](https://github.com/srrobin/pos-system/blob/main/src/assets/scrnli_4_17_2024_2-57-04%20PM.png)
 
 ## Description
 
@@ -13,9 +13,15 @@ This is a Point of Sale (POS) system built using React.js and various libraries 
 - **Order Tracking:** View and manage orders placed by customers.
 - **Payment Processing:** Process payments through a secure and user-friendly modal.
 - **Additional Features:** Add any other features your POS system offers.
+<<<<<<< HEAD
 
 
 ![POS System](pos_system_screenshot.png)
+=======
+- 
+![POS System](https://github.com/srrobin/pos-system/blob/main/src/assets/scrnli_4_17_2024_2-57-29%20PM.png)
+![POS System](https://github.com/srrobin/pos-system/blob/main/src/assets/scrnli_4_17_2024_4-28-57%20PM.png)
+>>>>>>> 4bfb19b87612332fc1d7a16ace16d3773b45858d
 ## Installation
 
 1. Clone the repository:
