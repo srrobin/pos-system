@@ -33,6 +33,7 @@ const Pos = () => {
     queryFn: () =>
       AxiosInstance.get("/products/categories").then((res) => res.data),
   });
+  console.log("🚀 ~ Pos ~ categories:", categories);
   // console.log("🚀 ~ Pos ~ categories:", categories);
   const {
     isLoading,
@@ -59,14 +60,6 @@ const Pos = () => {
       return prev;
     });
   };
-
-  // const handleAddToCart = (c_item) => {
-  //   console.log("🚀 ~ handleAddToCart ~ c_item:", c_item);
-  //   dispatch({
-  //     type: "ADD_TO_CART",
-  //     payload: c_item,
-  //   });
-  // };
   const handleAddToCart = (c_item) => {
     console.log("🚀 ~ handleAddToCart ~ c_item:", c_item);
     dispatch({
@@ -146,7 +139,7 @@ const Pos = () => {
             </Col>
           </Row>
         </div>
-        {/* <div className="pos__menu">
+        <div className="pos__menu">
           <Row gutter={[24, 0]}>
             <Col span={24}>
               <Tabs
@@ -156,19 +149,21 @@ const Pos = () => {
                   height: 50,
                 }}
                 items={
-                    !catIsLoading &&
-                    categories.map((item) => {
-                      return {
-                        label: item,
-                        key: item,
-                      };
-                    })
-                  }
+                !catIsLoading && !catIsError && Array.isArray(categories)
+                  ? categories.map((category) => {
+                    return {
+                      label: category.name, // Ensure you render a string here, like `category.name`
+                      key: category.slug, // Ensure the key is also a string (like `slug`)
+                    };
+                  })
+                  : []
+              }
                 onTabClick={categoryHandler}
               />
+
             </Col>
           </Row>
-        </div> */}
+        </div>
         <div className="show__product">
           <Row gutter={[24, 24]}>
             {products?.products.map((product) => (
