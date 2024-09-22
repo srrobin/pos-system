@@ -107,7 +107,7 @@ const Pos = () => {
                 prefix={<SearchOutlined />}
               />
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
               <Select
                 name="category"
                 showSearch
@@ -134,7 +134,7 @@ const Pos = () => {
                   });
                 }}
               />
-            </Col>
+            </Col> */}
             <Col span={2}>
               <DraftButton />
             </Col>
@@ -146,7 +146,7 @@ const Pos = () => {
             </Col>
           </Row>
         </div>
-        <div className="pos__menu">
+        {/* <div className="pos__menu">
           <Row gutter={[24, 0]}>
             <Col span={24}>
               <Tabs
@@ -168,7 +168,7 @@ const Pos = () => {
               />
             </Col>
           </Row>
-        </div>
+        </div> */}
         <div className="show__product">
           <Row gutter={[24, 24]}>
             {products?.products.map((product) => (
