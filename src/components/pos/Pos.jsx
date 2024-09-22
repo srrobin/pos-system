@@ -100,6 +100,34 @@ const Pos = () => {
                 prefix={<SearchOutlined />}
               />
             </Col>
+            <Col span={8}>
+              <Select
+                name="category"
+                showSearch
+                placeholder="Search to Select"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+    }
+                filterSort={(optionA, optionB) =>
+                  (String(optionA?.label ?? "")).toLowerCase()
+                    .localeCompare((String(optionB?.label ?? "")).toLowerCase())
+    }
+                options={categories?.map((category, index) => ({
+                  value: category.slug, // Use 'slug' as the value
+                  label: category.name, // Use 'name' to render the label
+                }))}
+                onChange={(value) => {
+                  setSearchParam((prev) => {
+                    const newSearchParams = new URLSearchParams(prev.toString()); // Copy to avoid mutating the original object
+                    newSearchParams.delete("q");
+                    newSearchParams.set("category", value); // Correct way to update the URL search params
+                    return newSearchParams; // Return the updated object
+                  });
+                }}
+              />
+            </Col>
+
             {/* <Col span={8}>
               <Select
                 name="category"
@@ -152,8 +180,8 @@ const Pos = () => {
                 !catIsLoading && !catIsError && Array.isArray(categories)
                   ? categories.map((category) => {
                     return {
-                      label: category.name, // Ensure you render a string here, like `category.name`
-                      key: category.slug, // Ensure the key is also a string (like `slug`)
+                      label: category.name,
+                      key: category.slug,
                     };
                   })
                   : []
