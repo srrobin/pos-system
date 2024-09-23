@@ -127,35 +127,6 @@ const Pos = () => {
                 }}
               />
             </Col>
-
-            {/* <Col span={8}>
-              <Select
-                name="category"
-                showSearch
-                placeholder="Search to Select"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                  }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                options={categories?.map((category, index) => ({
-                  value: category,
-                  label: category,
-                }))}
-                onChange={(value) => {
-                  // Changed here
-                  setSearchParam((prev) => {
-                    prev.delete("q");
-                    prev.set("category", value); // Changed here
-                    return prev;
-                  });
-                }}
-              />
-            </Col> */}
             <Col span={2}>
               <DraftButton />
             </Col>

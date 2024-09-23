@@ -7,12 +7,12 @@ import GlobalLoader from "../utils/GlobalLoader";
 import bg from "../assets/bg.jpg";
 
 const boxStyle = {
-  height: "100%",
+  height: "100vh",
   width: "100%",
   display: "grid",
   placeItems: "center",
-  backgroundColor: "#0958d9",
-  backgroundImage: `url(${bg})`,
+  // background: "linear-gradient(to right, #5a3f37, #023020)",
+  backgroundImage: `linear-gradient(to right, #5a3f37, #023020) ,url(${bg})`,
   backgroundPosition: "center center",
   backgroundRepeat: "repeat",
   backgroundBlendMode: "multiply"
