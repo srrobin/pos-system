@@ -16,7 +16,7 @@ This is a Point of Sale (POS) system built using React.js and various libraries 
 
 
 
-![POS System](pos_system_screenshot.png)
+![POS System](https://github.com/srrobin/pos-system/blob/main/src/assets/scrnli_4_17_2024_2-59-45%20PM.png)
 
 ## Installation
 
